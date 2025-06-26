@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кабинет создателя | ReelHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        /* Стили для кабинета создателя */
+        .creator-dashboard {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 30px 50px;
+        }
+        
+        .creator-sidebar {
+            background: var(--dark-light);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .creator-profile {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .creator-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            margin: 0 auto 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .creator-name {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .creator-tag {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .creator-rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .creator-rating i {
+            color: #FFD700;
+        }
+        
+        .creator-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .creator-stat {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .creator-nav {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            color: var(--gray);
+            text-decoration: none;
+        }
+        
+        .nav-item.active, .nav-item:hover {
+            background: rgba(110, 68, 255, 0.1);
+            color: var(--primary-light);
+        }
+        
+        .nav-item i {
+            width: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .creator-content {
+            background: var(--dark-light);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-header h1 {
+            font-size: 2rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            width: 350px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--primary);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px 20px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .search-bar button {
+            background: var(--primary);
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            color: white;
+        }
+        
+        .search-bar button:hover {
+            background: var(--primary-light);
+        }
+        
+        .filters-bar {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        
+        .filter-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .filter-tag.active, .filter-tag:hover {
+            background: rgba(110, 68, 255, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .offer-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .offer-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(110, 68, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .offer-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .offer-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .offer-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .offer-category {
+            background: rgba(0, 198, 255, 0.1);
+            color: var(--secondary);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+        
+        .offer-content {
+            padding: 20px;
+        }
+        
+        .offer-description {
+            color: var(--gray-light);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            display: -webkit-box;
+          
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .offer-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .offer-stat {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 15px;
+        }
+        
+        .stat-name {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .offer-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-offer {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-details {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--gray-light);
+        }
+        
+        .btn-details:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-apply {
+            background: rgba(110, 68, 255, 0.2);
+            color: var(--primary-light);
+        }
+        
+        .btn-apply:hover {
+            background: rgba(110, 68, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-play-circle"></i> <span>Reel</span>Hub
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="creator-hub.html" class="active">Для создателей</a>
+                <a href="create-offer.html">Создать предложение</a>
+                <a href="pricing.html">Тарифы</a>
+            </div>
+            <div class="auth-buttons">
+                <button id="authBtn" class="btn btn-outline">Войти</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="creator-dashboard">
+        <!-- Боковая панель -->
+        <aside class="creator-sidebar">
+            <div class="creator-profile">
+                <div class="creator-avatar">AV</div>
+                <h2 class="creator-name">Алексей Видеоблогер</h2>
+                <div class="creator-tag">@alex_video</div>
+                <div class="creator-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span>4.7 (128 отзывов)</span>
+                </div>
+                
+                <div class="creator-stats">
+                    <div class="creator-stat">
+                        <div class="stat-value">127</div>
+                        <div class="stat-label">Проектов</div>
+                    </div>
+                    <div class="creator-stat">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Успешных</div>
+                    </div>
+                    <div class="creator-stat">
+                        <div class="stat-value">245K</div>
+                        <div class="stat-label">Подписчиков</div>
+                    </div>
+                    <div class="creator-stat">
+                        <div class="stat-value">4.2%</div>
+                        <div class="stat-label">ER</div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="creator-nav">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-home"></i> Обзор
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-briefcase"></i> Мои проекты
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-wallet"></i> Финансы
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-bar"></i> Статистика
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-user-tie"></i> Профиль
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i> Настройки
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Основной контент -->
+        <main class="creator-content">
+            <div class="section-header">
+                <h1>Доступные предложения</h1>
+                <div class="search-bar">
+                    <input type="text" placeholder="Поиск предложений...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <div class="filters-bar">
+                <div class="filter-tag active">Все</div>
+                <div class="filter-tag">Красота</div>
+                <div class="filter-tag">Мода</div>
+                <div class="filter-tag">Техника</div>
+                <div class="filter-tag">Еда</div>
+                <div class="filter-tag">Авто</div>
+                <div class="filter-tag">Здоровье</div>
+                <div class="filter-tag">Высокий бюджет</div>
+            </div>
+            
+            <div class="offers-grid">
+                <!-- Предложение 1 -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="offer-logo">L</div>
+                        <div>
+                            <h3 class="offer-title">Косметика L'Oréal</h3>
+                            <span class="offer-category">Красота</span>
+                        </div>
+                    </div>
+                    <div class="offer-content">
+                        <p class="offer-description">
+                            Ищем блогеров для продвижения новой линии органической косметики. 
+                            Требуется 3 видео в течение месяца с хештегом #LorealOrganic.
+                        </p>
+                        
+                        <div class="offer-stats">
+                            <div class="offer-stat">
+                                <div class="stat-name">Бюджет</div>
+                                <div class="stat-value">₽ 50,000</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">За 1000 показов</div>
+                                <div class="stat-value">₽ 150</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Аудитория</div>
+                                <div class="stat-value">Женщины 18-35</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Срок</div>
+                                <div class="stat-value">14 дней</div>
+                            </div>
+                        </div>
+                        
+                        <div class="offer-actions">
+                            <button class="btn-offer btn-details">
+                                <i class="fas fa-info-circle"></i> Подробнее
+                            </button>
+                            <button class="btn-offer btn-apply">
+                                <i class="fas fa-handshake"></i> Откликнуться
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Предложение 2 -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="offer-logo">S</div>
+                        <div>
+                            <h3 class="offer-title">Samsung Galaxy S25</h3>
+                            <span class="offer-category">Техника</span>
+                        </div>
+                    </div>
+                    <div class="offer-content">
+                        <p class="offer-description">
+                            Продвижение нового флагмана Samsung. Ищем технологических блогеров с аудиторией от 50K подписчиков.
+                        </p>
+                        
+                        <div class="offer-stats">
+                            <div class="offer-stat">
+                                <div class="stat-name">Бюджет</div>
+                                <div class="stat-value">₽ 120,000</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">За 1000 показов</div>
+                                <div class="stat-value">₽ 300</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Аудитория</div>
+                                <div class="stat-value">Мужчины 18-40</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Срок</div>
+                                <div class="stat-value">7 дней</div>
+                            </div>
+                        </div>
+                        
+                        <div class="offer-actions">
+                            <button class="btn-offer btn-details">
+                                <i class="fas fa-info-circle"></i> Подробнее
+                            </button>
+                            <button class="btn-offer btn-apply">
+                                <i class="fas fa-handshake"></i> Откликнуться
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Предложение 3 -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="offer-logo">F</div>
+                        <div>
+                            <h3 class="offer-title">FitLife Приложение</h3>
+                            <span class="offer-category">Здоровье</span>
+                        </div>
+                    </div>
+                    <div class="offer-content">
+                        <p class="offer-description">
+                            Запуск нового фитнес-приложения. Ищем тренеров и ЗОЖ-блогеров для создания мотивационных видео.
+                        </p>
+                        
+                        <div class="offer-stats">
+                            <div class="offer-stat">
+                                <div class="stat-name">Бюджет</div>
+                                <div class="stat-value">₽ 35,000</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">За 1000 показов</div>
+                                <div class="stat-value">₽ 100</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Аудитория</div>
+                                <div class="stat-value">18-35 лет</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Срок</div>
+                                <div class="stat-value">21 день</div>
+                            </div>
+                        </div>
+                        
+                        <div class="offer-actions">
+                            <button class="btn-offer btn-details">
+                                <i class="fas fa-info-circle"></i> Подробнее
+                            </button>
+                            <button class="btn-offer btn-apply">
+                                <i class="fas fa-handshake"></i> Откликнуться
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Предложение 4 -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="offer-logo">N</div>
+                        <div>
+                            <h3 class="offer-title">Nike Sportswear</h3>
+                            <span class="offer-category">Мода</span>
+                        </div>
+                    </div>
+                    <div class="offer-content">
+                        <p class="offer-description">
+                            Продвижение новой коллекции спортивной одежды. Ищем активных блогеров с вовлеченной аудиторией.
+                        </p>
+                        
+                        <div class="offer-stats">
+                            <div class="offer-stat">
+                                <div class="stat-name">Бюджет</div>
+                                <div class="stat-value">₽ 85,000</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">За 1000 показов</div>
+                                <div class="stat-value">₽ 200</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Аудитория</div>
+                                <div class="stat-value">16-30 лет</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Срок</div>
+                                <div class="stat-value">10 дней</div>
+                            </div>
+                        </div>
+                        
+                        <div class="offer-actions">
+                            <button class="btn-offer btn-details">
+                                <i class="fas fa-info-circle"></i> Подробнее
+                            </button>
+                            <button class="btn-offer btn-apply">
+                                <i class="fas fa-handshake"></i> Откликнуться
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Предложение 5 -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="offer-logo">T</div>
+                        <div>
+                            <h3 class="offer-title">Tesla Model Y</h3>
+                            <span class="offer-category">Авто</span>
+                        </div>
+                    </div>
+                    <div class="offer-content">
+                        <p class="offer-description">
+                            Продвижение новой модели электромобиля. Ищем авто-блогеров с опытом обзоров премиальных автомобилей.
+                        </p>
+                        
+                        <div class="offer-stats">
+                            <div class="offer-stat">
+                                <div class="stat-name">Бюджет</div>
+                                <div class="stat-value">₽ 150,000</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">За 1000 показов</div>
+                                <div class="stat-value">₽ 350</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Аудитория</div>
+                                <div class="stat-value">Мужчины 25-45</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Срок</div>
+                                <div class="stat-value">5 дней</div>
+                            </div>
+                        </div>
+                        
+                        <div class="offer-actions">
+                            <button class="btn-offer btn-details">
+                                <i class="fas fa-info-circle"></i> Подробнее
+                            </button>
+                            <button class="btn-offer btn-apply">
+                                <i class="fas fa-handshake"></i> Откликнуться
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Предложение 6 -->
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="offer-logo">C</div>
+                        <div>
+                            <h3 class="offer-title">Coca-Cola Summer</h3>
+                            <span class="offer-category">Напитки</span>
+                        </div>
+                    </div>
+                    <div class="offer-content">
+                        <p class="offer-description">
+                            Летняя рекламная кампания. Ищем блогеров для создания веселых летних видео с напитком.
+                        </p>
+                        
+                        <div class="offer-stats">
+                            <div class="offer-stat">
+                                <div class="stat-name">Бюджет</div>
+                                <div class="stat-value">₽ 65,000</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">За 1000 показов</div>
+                                <div class="stat-value">₽ 120</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Аудитория</div>
+                                <div class="stat-value">Подростки</div>
+                            </div>
+                            <div class="offer-stat">
+                                <div class="stat-name">Срок</div>
+                                <div class="stat-value">30 дней</div>
+                            </div>
+                        </div>
+                        
+                        <div class="offer-actions">
+                            <button class="btn-offer btn-details">
+                                <i class="fas fa-info-circle"></i> Подробнее
+                            </button>
+                            <button class="btn-offer btn-apply">
+                                <i class="fas fa-handshake"></i> Откликнуться
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Активация фильтров
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

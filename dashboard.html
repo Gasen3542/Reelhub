@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет | ReelHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-play-circle"></i> <span>Reel</span>Hub
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="creator-hub.html">Для создателей</a>
+                <a href="create-offer.html">Создать предложение</a>
+                <a href="pricing.html">Тарифы</a>
+            </div>
+            <div class="auth-buttons">
+                <div id="userProfile">
+                    <img src="assets/default-avatar.jpg" alt="Профиль">
+                    <span>Иван Иванов</span>
+                    <div class="dropdown-menu">
+                        <a href="dashboard.html"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Боковая панель -->
+        <aside class="dashboard-sidebar">
+            <div class="user-profile">
+                <img src="assets/default-avatar.jpg" alt="Аватар" class="user-avatar">
+                <h2 class="user-name">Иван Иванов</h2>
+                <div class="user-role">Рекламодатель</div>
+            </div>
+            
+            <nav class="dashboard-nav">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-home"></i> Обзор
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-briefcase"></i> Мои кампании
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-wallet"></i> Финансы
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-bar"></i> Статистика
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-user-tie"></i> Профиль
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i> Настройки
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Основной контент -->
+        <main class="dashboard-content">
+            <div class="section-header">
+                <h1>Обзор аккаунта</h1>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Создать кампанию
+                </button>
+            </div>
+            
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">245K</div>
+                        <div class="stat-label">Показов</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-hand-pointer"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">12.5%</div>
+                        <div class="stat-label">CTR</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-ruble-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">₽ 24,800</div>
+                        <div class="stat-label">Потрачено</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">₽ 0.85</div>
+                        <div class="stat-label">Цена за клик</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <h2>Активные кампании</h2>
+                <a href="#">Показать все</a>
+            </div>
+            
+            <div class="campaigns-grid">
+                <!-- Кампания 1 -->
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <h3>Запуск фитнес-приложения</h3>
+                        <span class="badge active">Активна</span>
+                    </div>
+                    <div class="campaign-stats">
+                        <div class="campaign-stat">
+                            <span>Бюджет:</span>
+                            <strong>₽ 35,000</strong>
+                        </div>
+                        <div class="campaign-stat">
+                            <span>Показов:</span>
+                            <strong>124K</strong>
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 65%;"></div>
+                    </div>
+                    <div class="campaign-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-chart-line"></i> Статистика
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Кампания 2 -->
+                <div class="campaign-card">
+                    <div class="campaign-header">
+                        <h3>Продвижение косметики</h3>
+                        <span class="badge active">Активна</span>
+                    </div>
+                    <div class="campaign-stats">
+                        <div class="campaign-stat">
+                            <span>Бюджет:</span>
+                            <strong>₽ 50,000</strong>
+                        </div>
+                        <div class="campaign-stat">
+                            <span>Показов:</span>
+                            <strong>78K</strong>
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 45%;"></div>
+                    </div>
+                    <div class="campaign-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-chart-line"></i> Статистика
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <h2>Рекомендуемые создатели</h2>
+                <a href="#">Показать все</a>
+            </div>
+            
+            <div class="creators-grid">
+                <!-- Создатель 1 -->
+                <div class="creator-card">
+                    <img src="https://via.placeholder.com/100" alt="Аватар" class="creator-avatar">
+                    <h3 class="creator-name">Алексей Видеоблогер</h3>
+                    <div class="creator-tag">@alex_video</div>
+                    <div class="creator-stats">
+                        <div class="creator-stat">
+                            <strong>245K</strong>
+                            <span>Подписчиков</span>
+                        </div>
+                        <div class="creator-stat">
+                            <strong>4.2%</strong>
+                            <span>ER</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-eye"></i> Просмотр
+                    </button>
+                </div>
+                
+                <!-- Создатель 2 -->
+                <div class="creator-card">
+                    <img src="https://via.placeholder.com/100" alt="Аватар" class="creator-avatar">
+                    <h3 class="creator-name">Марина Красота</h3>
+                    <div class="creator-tag">@marina_beauty</div>
+                    <div class="creator-stats">
+                        <div class="creator-stat">
+                            <strong>187K</strong>
+                            <span>Подписчиков</span>
+                        </div>
+                        <div class="creator-stat">
+                            <strong>5.1%</strong>
+                            <span>ER</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-eye"></i> Просмотр
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

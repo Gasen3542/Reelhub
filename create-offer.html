@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать предложение | ReelHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .create-offer-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .create-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 20px;
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .back-button:hover {
+            background: rgba(110, 68, 255, 0.1);
+            color: var(--primary-light);
+        }
+        
+        .create-steps {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 10px;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            background: transparent;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .step.active {
+            background: rgba(110, 68, 255, 0.2);
+            color: var(--primary-light);
+        }
+        
+        .step.active::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+        
+        .form-container {
+            background: var(--dark-light);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(110, 68, 255, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-light);
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+            background: rgba(110, 68, 255, 0.1);
+            outline: none;
+        }
+        
+        textarea.form-input {
+            min-height: 120px;
+            padding: 15px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .checkbox-label:hover, .checkbox-label.active {
+            background: rgba(110, 68, 255, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .budget-slider {
+            margin-top: 15px;
+            padding: 0 10px;
+        }
+        
+        .budget-slider input {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+      
+        }
+        
+        .budget-slider input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+        
+        .slider-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 10px;
+            color: var(--primary-light);
+        }
+        
+        .image-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .image-upload:hover {
+            border-color: var(--primary);
+            background: rgba(110, 68, 255, 0.05);
+        }
+        
+        .image-upload i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--gray);
+        }
+        
+        .image-upload p {
+            color: var(--gray);
+        }
+        
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-upload p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-publish {
+            background: var(--primary);
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-publish:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(110, 68, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="create-offer-container">
+        <div class="create-header">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Назад
+            </a>
+            <h1>Создать новое предложение</h1>
+        </div>
+        
+        <div class="create-steps">
+            <div class="step active">1. Основное</div>
+            <div class="step">2. Аудитория</div>
+            <div class="step">3. Бюджет</div>
+            <div class="step">4. Контент</div>
+        </div>
+        
+        <div class="form-container">
+            <form id="offerForm">
+                <div class="form-grid">
+                    <!-- Левая колонка -->
+                    <div>
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-info-circle"></i> Основная информация
+                            </h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Название предложения</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-heading"></i>
+                                    <input type="text" class="form-input" placeholder="Пример: Коллаборация с косметическим брендом" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Категория</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-tag"></i>
+                                    <select class="form-input" required>
+                                        <option value="">Выберите категорию</option>
+                                        <option value="beauty">Красота</option>
+                                        <option value="fashion">Мода</option>
+                                        <option value="tech">Технологии</option>
+                                        <option value="food">Еда</option>
+                                        <option value="education">Образование</option>
+                                        <option value="other">Другое</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Описание</label>
+                                <textarea class="form-input" placeholder="Подробно опишите ваше предложение, требования к контенту и ожидаемый результат" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-image"></i> Медиа материалы
+                            </h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Логотип или обложка</label>
+                                <div class="image-upload">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Перетащите изображение сюда или кликните для выбора</p>
+                                    <input type="file" accept="image/*" style="display: none;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Креативные материалы</label>
+                                <div class="file-upload">
+                                    <button type="button" class="btn btn-outline">
+                                        <i class="fas fa-plus"></i> Добавить файлы
+                                    </button>
+                                    <p>Логотипы, брендбук, примеры контента (макс. 5 файлов)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Правая колонка -->
+                    <div>
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-users"></i> Целевая аудитория
+                            </h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Пол</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox"> Женщины
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox"> Мужчины
+                                    </label>
+                                    <label class="checkbox-label active">
+                                        <input type="checkbox" checked> Все
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Возраст</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox"> 13-17
+                                    </label>
+                                    <label class="checkbox-label active">
+                                        <input type="checkbox" checked> 18-24
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox"> 25-34
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox"> 35-44
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox"> 45+
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">География</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-globe"></i>
+                                    <select class="form-input" multiple>
+                                        <option value="ru" selected>Россия</option>
+                                        <option value="kz">Казахстан</option>
+                                        <option value="by">Беларусь</option>
+                                        <option value="ua">Украина</option>
+                                        <option value="all">Все страны СНГ</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-wallet"></i> Бюджет и оплата
+                            </h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Общий бюджет (₽)</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-ruble-sign"></i>
+                                    <input type="number" class="form-input" min="1000" value="5000" required>
+                                </div>
+                                <div class="budget-slider">
+                                    <input type="range" min="1000" max="50000" step="1000" value="5000" class="form-range">
+                                </div>
+                                <div class="slider-value">₽ 5,000</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Цена за 1000 показов (₽)</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-eye"></i>
+                                    <input type="number" class="form-input" min="50" step="10" value="150" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Тип оплаты</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label active">
+                                        <input type="radio" name="paymentType" value="cpm" checked> За показы (CPM)
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="radio" name="paymentType" value="cpc"> За клики (CPC)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline">
+                        <i class="fas fa-save"></i> Сохранить черновик
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-publish">
+                        <i class="fas fa-paper-plane"></i> Опубликовать предложение
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Обновление значения бюджета при движении слайдера
+        const budgetSlider = document.querySelector('.form-range');
+        const budgetValue = document.querySelector('.slider-value');
+        
+        budgetSlider.addEventListener('input', function() {
+            const value = parseInt(this.value).toLocaleString('ru-RU');
+            budgetValue.textContent = `₽ ${value}`;
+        });
+        
+        // Активация чекбоксов
+        document.querySelectorAll('.checkbox-label').forEach(label => {
+            const input = label.querySelector('input');
+            
+            label.addEventListener('click', function() {
+                if (input.type === 'checkbox') {
+                    input.checked = !input.checked;
+                } else if (input.type === 'radio') {
+                    input.checked = true;
+                }
+                
+                if (input.checked) {
+                    label.classList.add('active');
+                } else {
+                    label.classList.remove('active');
+                }
+            });
+        });
+        
+        // Загрузка изображений
+        const imageUpload = document.querySelector('.image-upload');
+        const fileInput = imageUpload.querySelector('input');
+        
+        imageUpload.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                imageUpload.innerHTML = `
+                    <div style="font-size: 3rem; color: var(--accent);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <p>Изображение загружено</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
